@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Classroom Superlatives – The Quiz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#e6edff;--surface:#ffffff;--ink:#14183a;--muted:#555b85;--pink:#ff4f8b;--yellow:#ffd23f;--green:#1fbf75;--red:#ff5a4d;--line:#14183a;
+  --font:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#0f1230;--surface:#1c2152;--ink:#f3f5ff;--muted:#a9b0e0;--line:#f3f5ff}
+}
+:root[data-theme="dark"]{--bg:#0f1230;--surface:#1c2152;--ink:#f3f5ff;--muted:#a9b0e0;--line:#f3f5ff}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.45;
+  background-image:radial-gradient(circle at 1px 1px,color-mix(in srgb,var(--ink) 14%,transparent) 1.5px,transparent 0);background-size:26px 26px}
+main{max-width:680px;margin:0 auto;padding:20px 18px 48px}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
+.brand{font-weight:800;font-size:15px;letter-spacing:.01em}
+.chips{display:flex;gap:8px;align-items:center}
+.chip{border:2.5px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-weight:600;font-size:14px;box-shadow:3px 3px 0 var(--line)}
+.icon{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--line);background:var(--surface);box-shadow:3px 3px 0 var(--line);font-size:17px;line-height:1;padding:0}
+.card{background:var(--surface);border:3px solid var(--line);border-radius:22px;box-shadow:7px 7px 0 var(--line);padding:28px 24px}
+h1{font-size:clamp(44px,13vw,84px);line-height:.95;margin:0 0 14px;font-weight:800;letter-spacing:-.03em}
+h1 .mark{background:var(--yellow);color:#14183a;padding:0 .14em;border-radius:12px;display:inline-block;transform:rotate(-2.5deg);box-shadow:4px 4px 0 var(--line)}
+h2{font-size:clamp(23px,5.4vw,31px);line-height:1.15;margin:0 0 22px;font-weight:800;letter-spacing:-.01em}
+p.lead{color:var(--muted);margin:0 0 24px;max-width:46ch}
+.btn{border:3px solid var(--line);border-radius:14px;background:var(--pink);color:#fff;font-weight:800;padding:13px 22px;box-shadow:5px 5px 0 var(--line);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--line)}
+.btn:active{transform:translate(5px,5px);box-shadow:0 0 0 var(--line)}
+.btn.alt{background:var(--surface);color:var(--ink)}
+.lens{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 26px}
+.lens button{border:2.5px solid var(--line);border-radius:12px;background:var(--surface);padding:9px 16px;font-weight:600}
+.lens button[aria-pressed="true"]{background:var(--yellow);color:#14183a;box-shadow:3px 3px 0 var(--line)}
+.bar{height:14px;border:2.5px solid var(--line);border-radius:99px;background:var(--surface);overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;width:0;background:var(--green);transition:width .4s}
+.meta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);margin-bottom:18px;font-weight:600}
+.opts{display:grid;gap:12px}
+.opt{display:flex;gap:14px;align-items:center;text-align:left;width:100%;border:3px solid var(--line);border-radius:16px;background:var(--surface);padding:12px 14px;box-shadow:4px 4px 0 var(--line);transition:transform .08s,box-shadow .08s,background .15s}
+.opt:hover:not(:disabled){transform:translate(2px,2px);box-shadow:2px 2px 0 var(--line)}
+.opt .k{flex:none;width:38px;height:38px;border-radius:11px;border:2.5px solid var(--line);display:grid;place-items:center;font-weight:800;background:var(--yellow);color:#14183a}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--green);color:#082a18;animation:pop .35s}
+.opt.wrong{background:var(--red);color:#2b0805;animation:shake .35s}
+.opt.dim{opacity:.55}
+.opt.right .k,.opt.wrong .k{background:#fff}
+@keyframes pop{50%{transform:scale(1.03)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{margin-top:20px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;min-height:54px}
+.fb strong{font-size:20px}
+.hint{color:var(--muted);font-size:14px;margin-top:16px}
+.stamp{display:inline-block;border:5px solid var(--pink);color:var(--pink);border-radius:18px;padding:2px 22px;font-size:clamp(64px,20vw,110px);font-weight:800;line-height:1.1;transform:rotate(-6deg);margin:6px 0 18px}
+.score{font-size:22px;font-weight:800;margin:0 0 6px}
+.rev{margin:22px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.rev li{display:flex;gap:10px;align-items:flex-start;border:2.5px solid var(--line);border-radius:12px;padding:9px 12px;font-size:15px}
+.rev li b{flex:none}
+.rev small{display:block;color:var(--muted)}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.hide{display:none!important}
+.bit{position:fixed;pointer-events:none;font-size:26px;z-index:20;animation:fall 1.4s ease-out forwards}
+@keyframes fall{from{opacity:1;transform:translate(0,0) rotate(0)}to{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--r))}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <div class="top">
+    <div class="brand">Classroom Superlatives</div>
+    <div class="chips">
+      <span class="chip" id="best" title="Best score">Best –</span>
+      <button class="icon" id="theme" aria-label="Switch light or dark theme">◐</button>
+    </div>
+  </div>
+
+  <section class="card" id="start">
+    <h1>Who’s the <span class="mark">cutest</span> in class?</h1>
+    <p class="lead">Twenty questions: some about your classmates, some about science, and a few that are just silly. Pick how many you want, then answer with a tap or the keys A, B, C and D.</p>
+    <div class="lens" id="lens" role="group" aria-label="Number of questions">
+      <button data-n="1" aria-pressed="false">1 random</button>
+      <button data-n="5" aria-pressed="false">5 questions</button>
+      <button data-n="10" aria-pressed="true">10 questions</button>
+      <button data-n="20" aria-pressed="false">All 20</button>
+    </div>
+    <button class="btn" id="go">Start the quiz</button>
+  </section>
+
+  <section class="card hide" id="play" aria-live="polite">
+    <div class="bar"><i id="fill"></i></div>
+    <div class="meta"><span id="count"></span><span id="streak"></span></div>
+    <h2 id="q"></h2>
+    <div class="opts" id="opts"></div>
+    <div class="fb">
+      <strong id="msg"></strong>
+      <button class="btn hide" id="next">Next question</button>
+    </div>
+    <div class="hint">Keys: A–D to answer, Enter for next.</div>
+  </section>
+
+  <section class="card hide" id="end">
+    <div class="stamp" id="grade"></div>
+    <p class="score" id="final"></p>
+    <p class="lead" id="verdict"></p>
+    <ul class="rev" id="rev"></ul>
+    <div class="row">
+      <button class="btn" id="again">Play again</button>
+      <button class="btn alt" id="home">Change length</button>
+    </div>
+  </section>
+</main>
+
+<script>
+const Q=[
+["Who is the cutest person in the class?",["A literal puppy","Misbah","A fluffy hamster","A baby panda"],1],
+["Who is the smartest student in the class?",["Antrina","Albert Einstein","A supercomputer","Nobody, we all share one brain cell"],0],
+["Who is the smartest plus multitasking student in the class?",["A Swiss Army Knife","Shriya","An eight-armed octopus","Operating System Kernel"],1],
+["Who is the most clumsy person in the class?",["A newborn giraffe on ice","Wamangi","A bowling ball in a glass shop","Gravity itself"],1],
+["Why did the chicken cross the road?",["To escape the chef","Because it wanted to cross it","To prove it wasn’t a chicken","To get to the other side"],1],
+["Who is the best footballer in the universe?",["Cristiano Ronaldo (SIUUU!)","Lionel Messi (The GOAT)","Yamini Amal (The Future)","The PE Teacher"],1],
+["Which is obviously the worst subject of the class?",["C programming","HTML","Maths","Web Designing"],2],
+["What is the actual powerhouse of the biological cell?",["Mitochondria","A strong cup of coffee","The classroom Wi-Fi router","Pure willpower"],0],
+["Which programming language is famous for making you forget semicolons?",["HTML","Python","C programming","English"],1],
+["How many days are there in a standard leap year?",["365","366","400","It feels like 700 during exam season"],1],
+["What is the chemical symbol for pure drinking water?",["CO2","H2O","H2SO4 (dangerous!)","Milkshake"],1],
+["Which celestial body is known as the Red Planet?",["Venus","Mars","Jupiter","The Sun after a long day"],1],
+["How many sides does a basic triangle have?",["2 sides","3 sides","4 sides","0 sides, it’s a circle"],1],
+["Who painted the iconic and enigmatic Mona Lisa?",["Leonardo da Vinci","Pablo Picasso","Vincent van Gogh","A graphic designer on a tight deadline"],0],
+["Which popular gaming console features the legendary character Mario?",["PlayStation","Xbox","Nintendo Switch","A graphing calculator"],2],
+["What essential gas do human beings require to breathe and survive?",["Nitrogen","Carbon Dioxide","Oxygen","Helium (for high-pitched voices)"],2],
+["What is officially considered the hardest natural mineral on Earth?",["Solid Iron","Diamond","Granite rock","Waking up early on a Monday morning"],1],
+["Which geographical feature is the tallest mountain above sea level?",["Mount Kilimanjaro","Mount Everest","K2","The pile of pending assignments on my desk"],1],
+["How many primary colors exist on a basic theoretical color wheel?",["3 colors","7 colors","10 colors","50 shades of grey"],0],
+["Which fast-food establishment is globally famous for the Big Mac?",["Burger King","Subway","McDonald’s","The local college canteen"],2]
+];
+const L="ABCD",$=id=>document.getElementById(id);
+let n=10,deck=[],i=0,score=0,streak=0,best=0,locked=false,log=[];
+
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+function show(id){["start","play","end"].forEach(s=>$(s).classList.toggle("hide",s!==id))}
+function shuffle(a){a=a.slice();for(let j=a.length-1;j>0;j--){const k=Math.floor(Math.random()*(j+1));[a[j],a[k]]=[a[k],a[j]]}return a}
+
+function init(){
+  const b=parseInt(store("cs-best")||"0",10);best=b||0;
+  $("best").textContent=best?"Best "+best+"%":"Best –";
+  const t=store("cs-theme");if(t)document.documentElement.dataset.theme=t;
+}
+function start(){
+  deck=shuffle(Q).slice(0,n);i=0;score=0;streak=0;log=[];
+  show("play");render();
+}
+function render(){
+  locked=false;const q=deck[i];
+  $("count").textContent="Question "+(i+1)+" of "+deck.length;
+  $("streak").textContent=streak>1?"🔥 "+streak+" in a row":"Score "+score;
+  $("fill").style.width=(i/deck.length*100)+"%";
+  $("q").textContent=q[0];$("msg").textContent="";
+  $("next").classList.add("hide");
+  const o=$("opts");o.innerHTML="";
+  q[1].forEach((t,k)=>{
+    const b=document.createElement("button");b.className="opt";b.dataset.k=k;
+    b.innerHTML='<span class="k">'+L[k]+'</span><span></span>';b.lastChild.textContent=t;
+    b.onclick=()=>pick(k);o.appendChild(b);
+  });
+}
+function pick(k){
+  if(locked)return;locked=true;
+  const q=deck[i],ok=k===q[2],bs=[...document.querySelectorAll(".opt")];
+  bs.forEach((b,j)=>{b.disabled=true;if(j===q[2])b.classList.add("right");else if(j===k)b.classList.add("wrong");else b.classList.add("dim")});
+  if(ok){score++;streak++;$("msg").textContent=["🎉 Correct! Undeniable truth.","✅ Nailed it!","🧠 Big brain energy."][streak%3];if(streak>1)burst(bs[k])}
+  else{streak=0;$("msg").textContent="❌ Nope. The truth was “"+L[q[2]]+"”."}
+  $("streak").textContent=streak>1?"🔥 "+streak+" in a row":"Score "+score;
+  log.push({q:q[0],ok,a:q[1][q[2]],y:q[1][k]});
+  $("fill").style.width=((i+1)/deck.length*100)+"%";
+  const nx=$("next");nx.textContent=i+1<deck.length?"Next question":"See results";nx.classList.remove("hide");nx.focus();
+}
+function next(){if(i+1<deck.length){i++;render()}else finish()}
+function finish(){
+  const pct=Math.round(score/deck.length*100);
+  const g=pct>=90?"A+":pct>=75?"A":pct>=60?"B":pct>=40?"C":"D";
+  $("grade").textContent=g;
+  $("final").textContent=score+" out of "+deck.length+" ("+pct+"%)";
+  $("verdict").textContent=pct===100?"Perfect. You know every undeniable truth.":pct>=75?"Top of the class. Teacher’s pet energy.":pct>=40?"Solid effort. One more round?":"The Wi-Fi router was the real powerhouse today. Try again!";
+  const r=$("rev");r.innerHTML="";
+  log.forEach(e=>{const li=document.createElement("li");
+    li.innerHTML="<b>"+(e.ok?"✅":"❌")+"</b><span></span>";
+    li.lastChild.textContent=e.q;
+    if(!e.ok){const s=document.createElement("small");s.textContent="You said “"+e.y+"”, answer: “"+e.a+"”";li.lastChild.appendChild(s)}
+    r.appendChild(li)});
+  if(deck.length>=5&&pct>best){best=pct;store("cs-best",String(pct));$("best").textContent="Best "+pct+"%"}
+  show("end");if(pct>=75)burst($("grade"),24);
+}
+function burst(el,c){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+  const r=el.getBoundingClientRect(),E=["🎉","⭐","✨","💖","🎈"];
+  for(let j=0;j<(c||10);j++){const s=document.createElement("span");s.className="bit";
+    s.textContent=E[j%E.length];s.style.left=(r.left+r.width/2)+"px";s.style.top=(r.top+r.height/2)+"px";
+    s.style.setProperty("--dx",(Math.random()*320-160)+"px");s.style.setProperty("--dy",(Math.random()*-220-30)+"px");
+    s.style.setProperty("--r",(Math.random()*540-270)+"deg");document.body.appendChild(s);setTimeout(()=>s.remove(),1500)}
+}
+$("lens").onclick=e=>{const b=e.target.closest("button");if(!b)return;n=+b.dataset.n;
+  [...$("lens").children].forEach(x=>x.setAttribute("aria-pressed",x===b))};
+$("go").onclick=start;$("again").onclick=start;$("home").onclick=()=>show("start");$("next").onclick=next;
+$("theme").onclick=()=>{const d=document.documentElement,dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";store("cs-theme",d.dataset.theme)};
+document.addEventListener("keydown",e=>{
+  if($("play").classList.contains("hide"))return;
+  const k=L.indexOf(e.key.toUpperCase());
+  if(e.key.length===1&&k>-1&&!e.ctrlKey&&!e.metaKey)pick(k);
+  else if(e.key==="Enter"&&locked){e.preventDefault();next()}
+});
+init();
+</script>
+</body>
+</html>
